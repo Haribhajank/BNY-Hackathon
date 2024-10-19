@@ -17,7 +17,7 @@ function UploadComponent() {
     formData.append('file', file);
 
 
-    axios.post('http://localhost:5000/upload', formData)
+    axios.post('http://127.0.0.1:8000/pdf/upload/', formData)
       .then((response) => {
         setMessage('File uploaded and processed successfully');
         setExtractedData(response.data.data);  // Save the extracted data
