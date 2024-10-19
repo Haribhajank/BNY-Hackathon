@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function TransactionsTable() {
+function DisplayComponent() {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
@@ -44,4 +44,4 @@ function TransactionsTable() {
   );
 }
 
-export default TransactionsTable;
+export default DisplayComponent;

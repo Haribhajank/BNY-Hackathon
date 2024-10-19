@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function FileUpload() {
+function UploadComponent() {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
   const [extractedData, setExtractedData] = useState(null);
@@ -44,4 +44,4 @@ function FileUpload() {
   );
 }
 
-export default FileUpload;
+export default UploadComponent;
