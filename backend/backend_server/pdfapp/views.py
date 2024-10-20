@@ -13,6 +13,13 @@ import httpx  # Async HTTP client for Mathpix
 from openai import AzureOpenAI
 from imgurpython import ImgurClient
 
+import pandas as pd
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+import numpy as np
+# Import DBSCAN from sklearn.cluster instead of dbscan
+from sklearn.cluster import DBSCAN 
+
 
 import cloudinary.uploader
 import cloudinary.api
@@ -243,6 +250,57 @@ def upload_image_to_imgur(image_path):
 #     return imgur_urls
 
 
+def json_to_transaction(bank_statement_json):
+  '''
+  converting json file to the given format dataframe
+
+  Args
+  json_data: json file object
+  Returns
+  dataframe: pandas dataframe
+  '''
+
+  # Convert transactions to a pandas DataFrame
+  transactions = pd.json_normalize(bank_statement_json['transactions'])
+
+  # Data preprocessing
+  # Replace 'null' with NaN before converting to float
+  transactions['amount'] = transactions['amount'].str.replace(',', '').replace('null', None).astype(float)  
+  transactions['balance'] = transactions['balance'].str.replace(',', '').replace('null', None).astype(float) 
+
+  # Feature engineering: derive useful features
+  transactions['transaction_type'] = transactions['credit/debit'].apply(lambda x: 1 if x == 'Credit' else 0)
+  transactions['previous_balance'] = transactions['balance'].shift(1)
+
+  #handling null values
+  transactions['amount_change'] = transactions['amount'].diff().fillna(0)
+  transactions['amount'] = transactions['amount'].fillna(0)
+  transactions['balance'] = transactions['balance'].diff().fillna(0)
+
+
+  # Drop unnecessary columns
+  transactions = transactions.drop(['credit/debit', 'description'], axis=1)
+
+  return transactions
+
+def fraud_detection(json_file_path):
+  
+  transactions = json_to_transaction(json_file_path)
+  scaler = StandardScaler()
+  scaled_transactions = scaler.fit_transform(transactions[['amount', 'balance', 'amount_change']])
+
+  # DBSCAN for outlier detection
+  dbscan = DBSCAN(eps=0.5, min_samples=2)  # Initialize DBSCAN correctly
+  dbscan.fit(scaled_transactions)  # Fit DBSCAN to the data
+  transactions['anomaly_dbscan'] = dbscan.labels_
+
+  # -1 indicates anomaly
+  dbscan_anomalies = transactions[transactions['anomaly_dbscan'] == -1]
+  # print(f"Anomalies detected by DBSCAN:\n{dbscan_anomalies}")
+
+  return dbscan_anomalies.index
+
+
 
 
 # Main function for uploading PDF and processing
@@ -345,11 +403,18 @@ def upload_pdf(request):
                         logging.error(f"OpenAI request failed: {e}")
                         continue
 
-                # Return the final processed data as JSON response
-                return JsonResponse(bank_statement_json, status=200)
+                # Now, detect fraud transactions
+                anomaly_indices = fraud_detection(bank_statement_json)
+
+                # Send both the bank statement and anomaly indices to the frontend
+                return JsonResponse({
+                    "data": bank_statement_json,
+                    "anomalies": list(anomaly_indices)  # Sending anomaly indices as a list
+                }, status=200)
 
         except Exception as e:
             logging.error(f"Error processing the request: {str(e)}")
             return JsonResponse({"error": "Internal Server Error"}, status=500)
     else:
         return JsonResponse({"error": "Invalid request method"}, status=400)
+    

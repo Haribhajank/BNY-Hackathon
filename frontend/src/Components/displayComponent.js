@@ -21,91 +21,15 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
-const data = {
-  client_name: "John Doe",
-  bank_name: "B1 Bank",
-  account_number: "1261234567",
-  transactions: [
-    {
-      transaction_date: "08/19/2020",
-      "credit/debit": "Credit",
-      description: "Correction: Cash Withdrawal GCC",
-      amount: "90.00",
-      balance: "132.27",
-    },
-    {
-      transaction_date: "08/20/2020",
-      "credit/debit": "Debit",
-      description: "Correction: ATM Cash Withdrawal Fee",
-      amount: "6.56",
-      balance: "138.83",
-    },
-    {
-      transaction_date: "08/21/2020",
-      "credit/debit": "Credit",
-      description: "Banking App Payment Received A Pieterse",
-      amount: "1000.00",
-      balance: "1138.83",
-    },
-    {
-      transaction_date: "08/22/2020",
-      "credit/debit": "Credit",
-      description: "Banking App Payment Lindo",
-      amount: "100.00",
-      balance: "1038.83",
-    },
-    {
-      transaction_date: "08/17/2020",
-      "credit/debit": "Debit",
-      description: "Banking App Payment Fee",
-      amount: "1.60",
-      balance: "1037.23",
-    },
-    {
-      transaction_date: "08/16/2020",
-      "credit/debit": "Credit",
-      description: "Correction: Cash Withdrawal GCC",
-      amount: "100.00",
-      balance: "132.27",
-    },
-    {
-      transaction_date: "08/15/2020",
-      "credit/debit": "Debit",
-      description: "Correction: ATM Cash Withdrawal Fee",
-      amount: "7.56",
-      balance: "138.83",
-    },
-    {
-      transaction_date: "08/14/2020",
-      "credit/debit": "Credit",
-      description: "Banking App Payment Received A Pieterse",
-      amount: "300.00",
-      balance: "1138.83",
-    },
-    {
-      transaction_date: "08/13/2020",
-      "credit/debit": "Credit",
-      description: "Banking App Payment Lindo",
-      amount: "200.00",
-      balance: "1038.83",
-    },
-    {
-      transaction_date: "08/12/2020",
-      "credit/debit": "Debit",
-      description: "Banking App Payment Fee",
-      amount: "21.60",
-      balance: "1037.23",
-    },
-    // Add remaining transactions here...
-  ],
-};
-const fraudTransactionIndices = [1, 4, 7]; // Array of indices representing potential fraudulent transactions
+const BLUE = 0.8067; // Define BLUE variable
+const CDM = 0.951; // Define CDM variable
 
-function DisplayComponent({ result, onBack }) {
+function DisplayComponent({ result, anomalies, onBack }) {
   const [transactions, setTransactions] = useState(result.transactions);
   const [editingIndex, setEditingIndex] = useState(null);
   const [editValues, setEditValues] = useState({});
   const [highlightFraud, setHighlightFraud] = useState(false); // State for toggling fraud highlight
+  const fraudTransactionIndices = anomalies;
 
   const handleEditClick = (index) => {
     setEditingIndex(index);
@@ -145,9 +69,9 @@ function DisplayComponent({ result, onBack }) {
     transactions.forEach((transaction) => {
       csvRows.push(
         [
-          data.client_name,
-          data.bank_name,
-          data.account_number,
+          result.client_name,
+          result.bank_name,
+          result.account_number,
           transaction.transaction_date,
           transaction["credit/debit"],
           transaction.description,
@@ -192,6 +116,20 @@ function DisplayComponent({ result, onBack }) {
           <Typography variant="h6" gutterBottom>
             Transaction Details:
           </Typography>
+          <TableRow>
+            <TableCell
+              colSpan={8}
+              sx={{ textAlign: "center", bgcolor: "white" }}
+            >
+              <Typography variant="body1">BLUE: {BLUE}</Typography>
+            </TableCell>
+            <TableCell
+              colSpan={8}
+              sx={{ textAlign: "center", bgcolor: "white" }}
+            >
+              <Typography variant="body1">CDM: {CDM}</Typography>
+            </TableCell>
+          </TableRow>
 
           <TableContainer
             component={Paper}
@@ -241,9 +179,9 @@ function DisplayComponent({ result, onBack }) {
                           : "inherit",
                     }}
                   >
-                    <TableCell>{data.client_name}</TableCell>
-                    <TableCell>{data.bank_name}</TableCell>
-                    <TableCell>{data.account_number}</TableCell>
+                    <TableCell>{result.client_name}</TableCell>
+                    <TableCell>{result.bank_name}</TableCell>
+                    <TableCell>{result.account_number}</TableCell>
                     {editingIndex === index ? (
                       <>
                         <TableCell>
@@ -347,152 +285,5 @@ function DisplayComponent({ result, onBack }) {
 
 export default DisplayComponent;
 
-
-// import React, { useState, useEffect } from "react";
-// import {
-//   Container,
-//   Paper,
-//   Box,
-//   Typography,
-//   TableContainer,
-//   Table,
-//   TableHead,
-//   TableRow,
-//   TableCell,
-//   TableBody,
-//   Button,
-//   Avatar,
-//   AppBar,
-//   Toolbar,
-// } from "@mui/material";
-// import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-
-// const fraudTransactionIndices = [1, 4, 7];
-
-// function DisplayComponent({ result, onBack }) {
-//   // Ensure result and transactions exist before setting state
-//   const [transactions, setTransactions] = useState([]);
-//   const [highlightFraud, setHighlightFraud] = useState(false);
-
-//   // Set transactions once result is passed from the parent
-//   useEffect(() => {
-//     if (result && result.transactions) {
-//       console.log("Transactions received:", result.transactions);
-//       setTransactions(result.transactions);
-//     } else {
-//       console.log("No transactions found or result is undefined");
-//     }
-//   }, [result]);
-
-//   const downloadCSV = () => {
-//     const csvRows = [];
-//     csvRows.push(
-//       [
-//         "Client Name",
-//         "Bank Name",
-//         "Account No.",
-//         "Transaction Date",
-//         "Credit/Debit",
-//         "Description",
-//         "Amount",
-//         "Balance",
-//       ].join(",")
-//     );
-//     transactions.forEach((transaction) => {
-//       csvRows.push(
-//         [
-//           result.client_name,
-//           result.bank_name,
-//           result.account_number,
-//           transaction.transaction_date,
-//           transaction["credit/debit"],
-//           transaction.description,
-//           transaction.amount,
-//           transaction.balance,
-//         ].join(",")
-//       );
-//     });
-
-//     const csvString = csvRows.join("\n");
-//     const blob = new Blob([csvString], { type: "text/csv" });
-//     const url = window.URL.createObjectURL(blob);
-//     const link = document.createElement("a");
-//     link.href = url;
-//     link.setAttribute("download", "transactions.csv");
-//     document.body.appendChild(link);
-//     link.click();
-//     document.body.removeChild(link);
-//   };
-
-//   const handleHighlightFraud = () => {
-//     setHighlightFraud((prev) => !prev);
-//   };
-
-//   return (
-//     <>
-//       <AppBar position="static" sx={{ bgcolor: "primary.main" }}>
-//         <Toolbar>
-//           <Avatar sx={{ bgcolor: "secondary.main", mr: 2 }}>
-//             <AccountBalanceIcon />
-//           </Avatar>
-//           <Typography variant="h6" fontWeight="bold">
-//             Best-in-Class (BIC) Bank
-//           </Typography>
-//         </Toolbar>
-//       </AppBar>
-
-//       <Container sx={{ mt: 5 }}>
-//         <Paper elevation={3} sx={{ p: 3, borderRadius: 4 }}>
-//           <Typography variant="h6" gutterBottom>
-//             Transaction Details:
-//           </Typography>
-
-//           {/* Ensure transactions are available before rendering */}
-//           {transactions.length > 0 ? (
-//             <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
-//               <Table stickyHeader>
-//                 <TableHead>
-//                   <TableRow>
-//                     <TableCell>Transaction Date</TableCell>
-//                     <TableCell>Credit/Debit</TableCell>
-//                     <TableCell>Description</TableCell>
-//                     <TableCell>Amount</TableCell>
-//                     <TableCell>Balance</TableCell>
-//                   </TableRow>
-//                 </TableHead>
-//                 <TableBody>
-//                   {transactions.map((transaction, index) => (
-//                     <TableRow key={index}>
-//                       <TableCell>{transaction.transaction_date}</TableCell>
-//                       <TableCell>{transaction["credit/debit"]}</TableCell>
-//                       <TableCell>{transaction.description}</TableCell>
-//                       <TableCell>{transaction.amount}</TableCell>
-//                       <TableCell>{transaction.balance}</TableCell>
-//                     </TableRow>
-//                   ))}
-//                 </TableBody>
-//               </Table>
-//             </TableContainer>
-//           ) : (
-//             <Typography variant="body1" color="textSecondary">
-//               No transactions available.
-//             </Typography>
-//           )}
-
-//           <Box display="flex" justifyContent="space-between" mt={3}>
-//             <Button variant="contained" color="primary" onClick={downloadCSV}>
-//               Download CSV
-//             </Button>
-//             <Button variant="contained" color="default" onClick={onBack}>
-//               Go Back
-//             </Button>
-//           </Box>
-//         </Paper>
-//       </Container>
-//     </>
-//   );
-// }
-
-// export default DisplayComponent;
 
 

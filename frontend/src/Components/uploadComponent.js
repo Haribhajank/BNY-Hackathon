@@ -39,8 +39,8 @@ axios
     setLoading(false);
     setMessage("File uploaded and processed successfully.");
 
-    // Passing the extracted data to the parent component to display
-    onViewResults(response.data); // Ensure data is passed to parent
+    // Passing both data and anomalies to the parent component
+    onViewResults(response.data.data, response.data.anomalies);
   })
   .catch((error) => {
     setLoading(false);
