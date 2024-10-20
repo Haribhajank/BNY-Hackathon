@@ -14,6 +14,32 @@ from openai import AzureOpenAI
 from imgurpython import ImgurClient
 
 
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config(
+  cloud_name = 'dov26aghv',  # Replace with your Cloudinary credentials
+  api_key = '863114567915198',
+  api_secret = 'WRmzVh-fRF_5kbxWq619rxsRi8M'
+)
+
+cloudinary.config(
+  cloud_name = 'dov26aghv',  # Replace with your Cloudinary credentials
+  api_key = '863114567915198',
+  api_secret = 'WRmzVh-fRF_5kbxWq619rxsRi8M'
+)
+
+def upload_image_to_cloudinary(image_path):
+    try:
+        response = cloudinary.uploader.upload(image_path)
+        image_url = response['url']  # Get the public URL
+        return image_url
+    except Exception as e:
+        logging.error(f"Error uploading image to Cloudinary: {e}")
+        return None
+
+
+
 
 # Replace with your Imgur API credentials
 CLIENT_ID = '8c38eac7cf693b6'
@@ -122,7 +148,7 @@ def extract_text_from_image(url):
 
     try:
         # Use requests.post instead of async client
-        response = requests.post(api_url, headers=headers, data=payload, timeout=10)
+        response = requests.post(api_url, headers=headers, data=payload, timeout=25)
 
         # Check if the request was successful (HTTP status code 200)
         if response.status_code == 200:
@@ -257,12 +283,13 @@ def upload_pdf(request):
                 
                 for image in image_list:
                     # Upload image to Imgur and get the URL
-                    image_url = upload_image_to_imgur(image)
+                    image_url = upload_image_to_cloudinary(image)
                     if not image_url:
                         return JsonResponse({"error": "Failed to upload image to Imgur"}, status=500)
 
                     image_base64 = convert_image_to_base64(image)  # Convert image to base64 for Mathpix OCR
-                    image_text = loop.run_until_complete(extract_text_from_image_async(image_base64)) # Extract text from image
+                    # image_text = loop.run_until_complete(extract_text_from_image_async(image_base64)) # Extract text from image
+                    image_text = extract_text_from_image(image_url) # Extract text from image
                     if not image_text:
                         return JsonResponse({"error": "Failed to extract text from image"}, status=500)
 
@@ -294,8 +321,8 @@ def upload_pdf(request):
                         )
 
                         # Print the raw response to the console
-                        print("OpenAI raw response:", response)
-                        logging.info(f"OpenAI raw response: {response}")
+                        # print("OpenAI raw response:", response)
+                        # logging.info(f"OpenAI raw response: {response}")
 
                         output = extract_json_from_response(response.choices[0].message.content)
 

@@ -1,47 +1,3 @@
-// import React, { useState } from 'react';
-// import axios from 'axios';
-
-// function UploadComponent() {
-//   const [file, setFile] = useState(null);
-//   const [message, setMessage] = useState('');
-//   const [extractedData, setExtractedData] = useState(null);
-
-//   const onFileChange = (e) => {
-//     setFile(e.target.files[0]);
-//   };
-
-//   const onFileUpload = () => {
-//     const formData = new FormData();
-//     formData.append('file', file);
-
-//     axios.post('http://localhost:5000/upload', formData)
-//       .then((response) => {
-//         setMessage('File uploaded and processed successfully');
-//         setExtractedData(response.data.data);  // Save the extracted data
-//       })
-//       .catch((error) => {
-//         setMessage('Error uploading file');
-//         console.error(error);
-//       });
-//   };
-
-//   return (
-//     <div>
-//       <h2>Upload Bank Statement PDF</h2>
-//       <input type="file" onChange={onFileChange} />
-//       <button onClick={onFileUpload}>Upload</button>
-//       {message && <p>{message}</p>}
-//       {extractedData && (
-//         <div>
-//           <h3>Extracted Data</h3>
-//           <pre>{JSON.stringify(extractedData, null, 2)}</pre>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default UploadComponent;
 import React, { useState } from "react";
 import axios from "axios";
 import {
@@ -56,7 +12,7 @@ import {
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-function UploadComponent() {
+function UploadComponent({ onViewResults }) {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
   const [extractedData, setExtractedData] = useState(null);
@@ -77,21 +33,21 @@ function UploadComponent() {
     const formData = new FormData();
     formData.append("file", file);
 
+axios
+  .post("http://127.0.0.1:8000/pdf/upload/", formData)
+  .then((response) => {
+    setLoading(false);
+    setMessage("File uploaded and processed successfully.");
 
-    axios.post('http://127.0.0.1:8000/pdf/upload/', formData)
-    axios
-      .post("http://localhost:5000/upload", formData)
-      .then((response) => {
-        setLoading(false);
-        setMessage("File uploaded and processed successfully.");
-        setExtractedData(response.data.data); // Save the extracted data
-      })
-      .catch((error) => {
-        setLoading(false);
-        setMessage("Error uploading file.");
-        console.error(error);
-      });
-  };
+    // Passing the extracted data to the parent component to display
+    onViewResults(response.data); // Ensure data is passed to parent
+  })
+  .catch((error) => {
+    setLoading(false);
+    setMessage("Error uploading file.");
+    console.error(error);
+  })
+};
 
   return (
     <Container sx={{ mt: 5 }}>
@@ -142,6 +98,16 @@ function UploadComponent() {
               >
                 <pre>{JSON.stringify(extractedData, null, 2)}</pre>
               </Paper>
+
+              {/* View Results Button */}
+              <Button
+                variant="contained"
+                color="secondary"
+                sx={{ mt: 2 }}
+                onClick={onViewResults} // Call the prop function to view results
+              >
+                View Results
+              </Button>
             </Box>
           )}
         </Box>

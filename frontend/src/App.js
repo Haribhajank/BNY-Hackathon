@@ -2,36 +2,32 @@ import React, { useState } from "react";
 import "./App.css";
 import UploadComponent from "./Components/UploadComponent";
 import DisplayComponent from "./Components/DisplayComponent";
+
 function App() {
   const [isUploaded, setIsUploaded] = useState(false);
   const [result, setResult] = useState(null);
 
-  const handleUpload = (file) => {
-    console.log("File uploaded:", file);
-
-    setTimeout(() => {
-      const simulatedResult = "This is the result from the backend!";
-      setResult(simulatedResult);
-      setIsUploaded(true);
-    }, 1000);
+  const handleUpload = (data) => {
+    console.log("Data received from the server:", data);
+    setResult(data); // Store the actual extracted data
+    setIsUploaded(true); // Indicate that upload was successful
   };
 
   const handleBack = () => {
-    setIsUploaded(false);
-    setResult(null);
+    setIsUploaded(false); // Go back to the upload page
+    setResult(null); // Clear the result data
   };
 
   return (
     <div className="App">
-      {/* {isUploaded ? (
+      {isUploaded ? (
         <DisplayComponent result={result} onBack={handleBack} />
       ) : (
-        <UploadComponent onUpload={handleUpload} />
-      )} */}
-      {/* <DisplayComponent result={result} onBack={handleBack} /> */}
-      <UploadComponent onUpload={handleUpload} />
+        <UploadComponent onViewResults={handleUpload} />
+      )}
     </div>
   );
 }
 
 export default App;
+
