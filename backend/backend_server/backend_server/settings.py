@@ -12,9 +12,25 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# Get the secret key from the environment variables
+API_KEY = os.getenv('API_KEY')
+API_VERSION = os.getenv('API_VERSION')
+AZURE_ENDPOINT = os.getenv('AZURE_ENDPOINT')
+
+# Set debug mode based on environment variables
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
+# Example of accessing the API key
+API_KEY = os.getenv('API_KEY')
 
 # Handles pdf upload
 MEDIA_URL = '/media/'

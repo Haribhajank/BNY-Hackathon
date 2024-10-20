@@ -12,6 +12,10 @@ import asyncio  # Import asyncio
 import httpx  # Async HTTP client for Mathpix
 from openai import AzureOpenAI
 from imgurpython import ImgurClient
+import pymongo
+from bson import json_util
+from django.http import HttpResponse
+from pymongo import MongoClient
 
 import pandas as pd
 from sklearn.decomposition import PCA
@@ -19,22 +23,23 @@ from sklearn.preprocessing import StandardScaler
 import numpy as np
 # Import DBSCAN from sklearn.cluster instead of dbscan
 from sklearn.cluster import DBSCAN 
+from django.conf import settings
 
 
 import cloudinary.uploader
 import cloudinary.api
 
-cloudinary.config(
-  cloud_name = 'dov26aghv',  # Replace with your Cloudinary credentials
-  api_key = '863114567915198',
-  api_secret = 'WRmzVh-fRF_5kbxWq619rxsRi8M'
-)
+# Connect to MongoDB
+client = MongoClient('mongodb+srv://haribhajank5:HiinYbvh4obgFact@cluster0.7dr4sic.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')  # Replace with your MongoDB connection string
+db = client['bicStatement']  # Replace with your database name
+collection = db['bicData']   # Replace with your collection name 
 
 cloudinary.config(
   cloud_name = 'dov26aghv',  # Replace with your Cloudinary credentials
   api_key = '863114567915198',
   api_secret = 'WRmzVh-fRF_5kbxWq619rxsRi8M'
 )
+
 
 def upload_image_to_cloudinary(image_path):
     try:
@@ -47,20 +52,12 @@ def upload_image_to_cloudinary(image_path):
 
 
 
-
-# Replace with your Imgur API credentials
-CLIENT_ID = '8c38eac7cf693b6'
-CLIENT_SECRET = 'd8e2cfb35ebb8ebf68540a5fc98f1f47c83b71a9'
-
-# Initialize Imgur client
-client = ImgurClient(CLIENT_ID, CLIENT_SECRET)
-
 # Azure OpenAI setup
 MODEL_MINI = 'gpt4omini'
 client_mini = AzureOpenAI(
-    api_key="1eb9bca863a94790859abc5813841b5a",
-    api_version="2024-02-15-preview",
-    azure_endpoint = "https://eastusalakhai.openai.azure.com/"
+    api_key=settings.API_KEY,
+    api_version=settings.API_VERSION,
+    azure_endpoint = settings.AZURE_ENDPOINT
     )
 
 prompt_latex_text = """
@@ -406,11 +403,25 @@ def upload_pdf(request):
                 # Now, detect fraud transactions
                 anomaly_indices = fraud_detection(bank_statement_json)
 
-                # Send both the bank statement and anomaly indices to the frontend
-                return JsonResponse({
+                #Mongo connection
+                # Save bank_statement_json in MongoDB
+                try:
+                    inserted_id = collection.insert_one(bank_statement_json).inserted_id
+                    logging.info(f"Document inserted with ID: {inserted_id}")
+                except Exception as e:
+                    logging.error(f"Failed to insert into MongoDB: {e}")
+                    return JsonResponse({"error": "Failed to save data to MongoDB"}, status=500)
+
+
+                # Convert the bank statement JSON and ObjectId to strings using bson.json_util
+                response_data = {
                     "data": bank_statement_json,
-                    "anomalies": list(anomaly_indices)  # Sending anomaly indices as a list
-                }, status=200)
+                    "anomalies": list(anomaly_indices),
+                    "mongo_id": str(inserted_id)  # Convert ObjectId to string
+                }
+
+                # Serialize using bson.json_util to handle ObjectId and return an HttpResponse
+                return HttpResponse(json_util.dumps(response_data), content_type="application/json")
 
         except Exception as e:
             logging.error(f"Error processing the request: {str(e)}")

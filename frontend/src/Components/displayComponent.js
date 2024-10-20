@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import backgroundImage from '../images/img.jpeg';
 import axios from "axios";
 import {
   Container,
@@ -98,34 +99,64 @@ function DisplayComponent({ result, anomalies, onBack }) {
 
   return (
     <>
-      {/* AppBar for top-left header with Avatar */}
-      <AppBar position="static" sx={{ bgcolor: "primary.main" }}>
+          {/* Background wrapper with blur effect */}
+          <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "blur(8px)",
+          zIndex: -1,
+        }}
+      />
+      {/* AppBar with reduced opacity */}
+      <AppBar
+        position="static"
+        sx={{
+          bgcolor: "rgba(25, 118, 210, 0.7)", // Reduce opacity of primary color
+          backdropFilter: "blur(3px)", // Ensure blur effect is applied
+        }}
+      >
         <Toolbar>
-          <Avatar sx={{ bgcolor: "secondary.main", mr: 2 }}>
+          <Avatar sx={{ bgcolor: "rgba(244, 143, 177, 0.8)", mr: 2 }}>
             <AccountBalanceIcon />
           </Avatar>
           <Typography variant="h6" fontWeight="bold">
-            Best-in-Class (BIC) Bank
+          Best-in-Class (BIC) Bank
           </Typography>
         </Toolbar>
       </AppBar>
 
+
+
       {/* Main Content */}
       <Container sx={{ mt: 5 }}>
-        <Paper elevation={3} sx={{ p: 3, borderRadius: 4 }}>
+        <Paper       elevation={3}
+          sx={{
+            p: 4,
+            borderRadius: 4,
+            backgroundColor: "rgba(255, 255, 255, 0.7)", // Reduce opacity to make background more visible
+            position: "relative",
+            backdropFilter: "blur(3px)", // Extra blur to enhance blending
+          }}>
           <Typography variant="h6" gutterBottom>
             Transaction Details:
           </Typography>
           <TableRow>
             <TableCell
               colSpan={8}
-              sx={{ textAlign: "center", bgcolor: "white" }}
+              sx={{ textAlign: "center" ,backgroundColor: "rgba(255, 255, 255, 0.7)", backdropFilter: "blur(3px)"}}
             >
               <Typography variant="body1">BLUE: {BLUE}</Typography>
             </TableCell>
             <TableCell
               colSpan={8}
-              sx={{ textAlign: "center", bgcolor: "white" }}
+              sx={{ textAlign: "center", backgroundColor: "rgba(255, 255, 255, 0.7)" }}
             >
               <Typography variant="body1">CDM: {CDM}</Typography>
             </TableCell>
@@ -133,11 +164,11 @@ function DisplayComponent({ result, anomalies, onBack }) {
 
           <TableContainer
             component={Paper}
-            sx={{ maxHeight: 400, overflowY: "auto" }}
+            sx={{ maxHeight: 400, overflowY: "auto", backgroundColor: "rgba(255, 255, 255, 0.0)"}}
           >
-            <Table stickyHeader>
-              <TableHead>
-                <TableRow>
+            <Table stickyHeader >
+              <TableHead >
+                <TableRow >
                   <TableCell>
                     <strong>Client Name</strong>
                   </TableCell>
@@ -175,7 +206,7 @@ function DisplayComponent({ result, anomalies, onBack }) {
                       backgroundColor:
                         highlightFraud &&
                         fraudTransactionIndices.includes(index)
-                          ? "rgba(255, 0, 0, 0.2)" // Highlight fraudulent transactions in red
+                          ? "rgba(255, 0, 0, 0.7)" // Highlight fraudulent transactions in red
                           : "inherit",
                     }}
                   >
