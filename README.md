@@ -99,7 +99,8 @@ After the system processes your PDF, the **extracted data** will be displayed in
 
 - 🖊️ **Edit** or **correct** any errors in the data.
 - ✔️ **Verify** the accuracy of the extracted transactions.
-- ![Extracted Data Table](https://drive.google.com/file/d/1DepUZyaKDF5oNbhFm-scjW3zcTQ9joV4/view?usp=drive_link)
+![Image Description](https://drive.google.com/uc?export=view&id=1DepUZyaKDF5oNbhFm-scjW3zcTQ9joV4)
+
 
 
 ---
@@ -110,7 +111,8 @@ The system automatically flags **fraudulent transactions** identified by the **D
 
 - 🔴 **Red Highlight**: Fraudulent transactions.
 - 👀 **Review these transactions** carefully to determine if they are indeed fraudulent.
-- ![Fraud Detection](https://drive.google.com/file/d/1bzDLgM5z6EdCpitgGF7I-1IZ0FqtW8KZ/view?usp=drive_link)
+![Fraud Detection](https://drive.google.com/uc?export=view&id=1bzDLgM5z6EdCpitgGF7I-1IZ0FqtW8KZ)
+
 ---
 
 ### Step 4: **Download CSV**
