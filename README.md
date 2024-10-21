@@ -129,6 +129,14 @@ After reviewing and verifying the data, you can export the results as a **CSV fi
 🎉 **That's it!** You've successfully extracted, reviewed, and detected fraudulent transactions from a **bank statement PDF**.
 
 
+## 👥 Collaborators
+
+| Name         | GitHub Profile                                    |
+|--------------|---------------------------------------------------|
+| ![Haribhajan](https://github.com/haribhajan.png?size=50) | [@haribhajan](https://github.com/haribhajan)      |
+| ![Abhishek](https://github.com/abhishek.png?size=50)     | [@abhishek](https://github.com/abhishek)          |
+| ![Ayush](https://github.com/ayush.png?size=50)           | [@ayush](https://github.com/ayush)                |
+| ![Sudhanshu](https://github.com/sudhanshu.png?size=50)   | [@sudhanshu](https://github.com/sudhanshu)        |
 
 
 
