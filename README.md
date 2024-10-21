@@ -87,6 +87,8 @@ Upload your **bank statement PDF** to extract transaction data.
 
 ✅ **Upon successful upload**, the system will automatically:
 
+![Upload PDF](https://drive.google.com/uc?export=view&id=1DepUZyaKDF5oNbhFm-scjW3zcTQ9joV4)
+
 - 🔄 **Convert** the PDF to an image.
 - 🔍 **Extract** the transaction data using **OCR**.
 - ⚠️ **Apply DBSCAN** to detect **anomalies** and **flag potential fraud**.
@@ -99,7 +101,8 @@ After the system processes your PDF, the **extracted data** will be displayed in
 
 - 🖊️ **Edit** or **correct** any errors in the data.
 - ✔️ **Verify** the accuracy of the extracted transactions.
-![Image Description](https://drive.google.com/uc?export=view&id=1DepUZyaKDF5oNbhFm-scjW3zcTQ9joV4)
+![Image Description](https://drive.google.com/uc?export=view&id=1-EhXUbi852R4r6Wq12lVOEtQ-YtofA4k)
+
 
 
 
