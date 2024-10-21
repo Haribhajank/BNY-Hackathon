@@ -30,7 +30,7 @@ import cloudinary.uploader
 import cloudinary.api
 
 # Connect to MongoDB
-client = MongoClient('mongodb+srv://haribhajank5:HiinYbvh4obgFact@cluster0.7dr4sic.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')  # Replace with your MongoDB connection string
+client = MongoClient(settings.MONGO_CLIENT)  # Replace with your MongoDB connection string
 db = client['bicStatement']  # Replace with your database name
 collection = db['bicData']   # Replace with your collection name 
 
@@ -120,8 +120,8 @@ async def extract_text_from_image_async(image_base64):
         "include_smiles": True,
     })
     headers = {
-        'app_id': "content_physicswallah_org_4b45e3_f91b78",
-        'app_key': "483bed72bcfe6e3c237478d78b5873c9cbcf38b71f2410b9871ab923335af9b6",
+        'app_id': settings.APP_ID,
+        'app_key': settings.APP_KEY,
         'Content-Type': 'application/json'
     }
 
@@ -145,8 +145,8 @@ def extract_text_from_image(url):
         "include_smiles": True,
     })
     headers = {
-        'app_id': "content_physicswallah_org_4b45e3_f91b78",
-        'app_key': "483bed72bcfe6e3c237478d78b5873c9cbcf38b71f2410b9871ab923335af9b6",
+        'app_id': settings.APP_ID,
+        'app_key': settings.APP_KEY,
         'Content-Type': 'application/json'
     }
 
@@ -210,14 +210,14 @@ def pdf_to_images(pdf_path, output_dir, zoom=2):
 #         logging.error(f"Error uploading image to Imgur: {e}")
 #         return None
 
-def upload_image_to_imgur(image_path):
-    try:
-        response = client.upload_from_path(image_path, anon=True)  # Upload as anonymous
-        image_url = response['link']  # Get the public URL
-        return image_url
-    except Exception as e:
-        logging.error(f"Error uploading image to Imgur: {e}")
-        return None
+# def upload_image_to_imgur(image_path):
+#     try:
+#         response = client.upload_from_path(image_path, anon=True)  # Upload as anonymous
+#         image_url = response['link']  # Get the public URL
+#         return image_url
+#     except Exception as e:
+#         logging.error(f"Error uploading image to Imgur: {e}")
+#         return None
 
 
 
@@ -382,8 +382,8 @@ def upload_pdf(request):
                         output = extract_json_from_response(response.choices[0].message.content)
 
                         # Print the extracted JSON part from OpenAI response
-                        print("Extracted JSON from OpenAI response:", output)
-                        logging.info(f"Extracted JSON from OpenAI response: {output}")
+                        # print("Extracted JSON from OpenAI response:", output)
+                        # logging.info(f"Extracted JSON from OpenAI response: {output}")
 
                         if output is None:
                             logging.error("No JSON found in OpenAI response")

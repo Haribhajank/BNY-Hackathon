@@ -22,15 +22,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Get the secret key from the environment variables
+
+# Open AI Variables
 API_KEY = os.getenv('API_KEY')
 API_VERSION = os.getenv('API_VERSION')
 AZURE_ENDPOINT = os.getenv('AZURE_ENDPOINT')
 
+
+# Mathpix Variables
+APP_KEY = os.getenv('APP_KEY')
+APP_ID = os.getenv('APP_ID')
+
+# Mongo Variables
+MONGO_CLIENT = os.getenv('MONGO_CLIENT')
+
+
 # Set debug mode based on environment variables
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
-
-# Example of accessing the API key
-API_KEY = os.getenv('API_KEY')
 
 # Handles pdf upload
 MEDIA_URL = '/media/'
