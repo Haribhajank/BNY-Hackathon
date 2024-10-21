@@ -133,10 +133,11 @@ After reviewing and verifying the data, you can export the results as a **CSV fi
 
 | Name         | GitHub Profile                                    |
 |--------------|---------------------------------------------------|
-| ![Haribhajan](https://github.com/haribhajan.png?size=50) | [@haribhajan](https://github.com/haribhajan)      |
-| ![Abhishek](https://github.com/abhishek.png?size=50)     | [@abhishek](https://github.com/abhishek)          |
-| ![Ayush](https://github.com/ayush.png?size=50)           | [@ayush](https://github.com/ayush)                |
-| ![Sudhanshu](https://github.com/sudhanshu.png?size=50)   | [@sudhanshu](https://github.com/sudhanshu)        |
+| ![Haribhajank](https://github.com/Haribhajank.png?size=10) | [@Haribhajank](https://github.com/Haribhajank)      |
+| ![ABHISHEKgauti25](https://github.com/ABHISHEKgauti25.png?size=10) | [@ABHISHEKgauti25](https://github.com/ABHISHEKgauti25) |
+| ![ayushmothiya](https://github.com/ayushmothiya.png?size=10)   | [@ayushmothiya](https://github.com/ayushmothiya)    |
+| ![sudhanshuk1404](https://github.com/sudhanshuk1404.png?size=10) | [@sudhanshuk1404](https://github.com/sudhanshuk1404) |
+
 
 
 
