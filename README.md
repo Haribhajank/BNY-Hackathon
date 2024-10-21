@@ -131,12 +131,13 @@ After reviewing and verifying the data, you can export the results as a **CSV fi
 
 ## 👥 Collaborators
 
-| Name         | GitHub Profile                                    |
-|--------------|---------------------------------------------------|
-| ![Haribhajank](https://github.com/Haribhajank.png?size=10) | [@Haribhajank](https://github.com/Haribhajank)      |
-| ![ABHISHEKgauti25](https://github.com/ABHISHEKgauti25.png?size=10) | [@ABHISHEKgauti25](https://github.com/ABHISHEKgauti25) |
-| ![ayushmothiya](https://github.com/ayushmothiya.png?size=10)   | [@ayushmothiya](https://github.com/ayushmothiya)    |
-| ![sudhanshuk1404](https://github.com/sudhanshuk1404.png?size=10) | [@sudhanshuk1404](https://github.com/sudhanshuk1404) |
+| Avatar | Name         | GitHub Profile                                    |
+|--------|--------------|---------------------------------------------------|
+| <img src="https://github.com/Haribhajank.png?size=40" width="40" height="40"> | Haribhajan   | [@Haribhajank](https://github.com/Haribhajank)      |
+| <img src="https://github.com/ABHISHEKgauti25.png?size=40" width="40" height="40"> | Abhishek     | [@ABHISHEKgauti25](https://github.com/ABHISHEKgauti25)          |
+| <img src="https://github.com/ayushmothiya.png?size=40" width="40" height="40"> | Ayush        | [@ayushmothiya](https://github.com/ayushmothiya)                |
+| <img src="https://github.com/sudhanshuk1404.png?size=40" width="40" height="40"> | Sudhanshu    | [@sudhanshuk1404](https://github.com/sudhanshuk1404)        |
+
 
 
 
