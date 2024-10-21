@@ -1,6 +1,6 @@
 # 🏦 Bank Statement Data Extraction & Fraud Detection System
 
-This project, built for the **BNY Hackathon**, is a smart system that automates **data extraction from bank statements**, provides a **manual review interface**, and utilizes **machine learning** to detect **fraudulent transactions**. The system is developed using **Django** for the backend, **React** for the frontend, and **MongoDB** for data storage.
+This project, developed as the Runner-Up solution for the BNY Hackathon, is a smart system that automates data extraction from bank statements, provides a manual review interface, and utilizes machine learning to detect fraudulent transactions. The system is built using Django for the backend, React for the frontend, and MongoDB for data storage.
 
 ---
 
